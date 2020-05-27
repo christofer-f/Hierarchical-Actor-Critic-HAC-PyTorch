@@ -16,7 +16,7 @@ def train():
     save_episode = 10               # keep saving every n episodes
     max_episodes = 1000             # max num of training episodes
     random_seed = 0
-    render = True
+    render = False
     
     # env = gym.make(env_name)
     env = cc.Continuous_MountainCarEnv()

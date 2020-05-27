@@ -57,7 +57,6 @@ class HAC:
     
     
     def run_HAC(self, env, i_level, state, goal, is_subgoal_test):
-        self.state_classifier[i_level].clear()
         self.explore_mode[i_level] = "return"
 
         next_state = None
