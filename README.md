@@ -5,7 +5,8 @@ The code is not optimized but works well for toy problems
 
 ![](https://github.com/christofer-f/Hierarchical-Actor-Critic-HAC-PyTorch/blob/master/Result.png)
 
-Serie1: Standard exploration 
+Serie1: Standard exploration
+
 Serie2: GO-EXPLORE is active  (https://github.com/uber-research/go-explore)
 
 
