@@ -3,6 +3,10 @@ anyway it seems to work really well
 
 ![](https://github.com/christofer-f/Hierarchical-Actor-Critic-HAC-PyTorch/blob/master/Result.png)
 
+Serie1: GO-EXPLORE is active  (https://github.com/uber-research/go-explore)
+Serie2: Standard exploration 
+
+
 # Hierarchical-Actor-Critic-HAC-PyTorch
 
 This is an implementation of the Hierarchical Actor Critic (HAC) algorithm described in the paper, [Learning Multi-Level Hierarchies with Hindsight](https://arxiv.org/abs/1712.00948) (ICLR 2019), in PyTorch for OpenAI gym environments. The algorithm learns to reach a goal state by dividing the task into short horizon intermediate goals (subgoals). 
