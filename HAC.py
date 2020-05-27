@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from DDPG import DDPG
 from utils import ReplayBuffer
+from archive import State_classifier
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -12,12 +13,16 @@ class HAC:
         # adding lowest level
         self.HAC = [DDPG(state_dim, action_dim, action_bounds, action_offset, lr, H)]
         self.replay_buffer = [ReplayBuffer()]
+        self.state_classifier = [State_classifier()]
+        self.explore_mode = ["return"]
         
         # adding remaining levels
         for _ in range(k_level-1):
             self.HAC.append(DDPG(state_dim, state_dim, state_bounds, state_offset, lr, H))
             self.replay_buffer.append(ReplayBuffer())
-        
+            self.state_classifier.append(State_classifier())
+            self.explore_mode.append("return")
+
         # set some parameters
         self.k_level = k_level
         self.H = H
@@ -52,6 +57,9 @@ class HAC:
     
     
     def run_HAC(self, env, i_level, state, goal, is_subgoal_test):
+        self.state_classifier[i_level].clear()
+        self.explore_mode[i_level] = "return"
+
         next_state = None
         done = None
         goal_transitions = []
@@ -64,6 +72,9 @@ class HAC:
             # if this is a subgoal test, then next/lower level goal has to be a subgoal test
             is_next_subgoal_test = is_subgoal_test
             
+            if self.explore_mode[i_level] == "return":                    
+                self.explore_mode[i_level] = self.state_classifier[i_level].check_state(state)
+
             action = self.HAC[i_level].select_action(state, goal)
             
             #   <================ high level policy ================>
@@ -74,7 +85,8 @@ class HAC:
                       action = action + np.random.normal(0, self.exploration_state_noise)
                       action = action.clip(self.state_clip_low, self.state_clip_high)
                     else:
-                      action = np.random.uniform(self.state_clip_low, self.state_clip_high)
+                        if self.explore_mode[i_level] == "explore":                    
+                            action = np.random.uniform(self.state_clip_low, self.state_clip_high)
                 
                 # Determine whether to test subgoal (action)
                 if np.random.random_sample() < self.lamda:
@@ -95,10 +107,11 @@ class HAC:
                 # add noise or take random action if not subgoal testing
                 if not is_subgoal_test:
                     if np.random.random_sample() > 0.2:
-                      action = action + np.random.normal(0, self.exploration_action_noise)
-                      action = action.clip(self.action_clip_low, self.action_clip_high)
+                        action = action + np.random.normal(0, self.exploration_action_noise)
+                        action = action.clip(self.action_clip_low, self.action_clip_high)
                     else:
-                      action = np.random.uniform(self.action_clip_low, self.action_clip_high)
+                        if self.explore_mode[i_level] == "explore":    
+                            action = np.random.uniform(self.action_clip_low, self.action_clip_high)
                 
                 # take primitive action
                 next_state, rew, done, _ = env.step(action)

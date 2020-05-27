@@ -1,7 +1,12 @@
+import sys,os
+sys.path.append( os.path.join( os.path.dirname(__file__), os.path.pardir ) )
+
 import torch
 import gym
 import numpy as np
 from HAC import HAC
+
+import mygym.continuous_mountain_car as cc
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -11,9 +16,11 @@ def train():
     save_episode = 10               # keep saving every n episodes
     max_episodes = 1000             # max num of training episodes
     random_seed = 0
-    render = False
+    render = True
     
-    env = gym.make(env_name)
+    # env = gym.make(env_name)
+    env = cc.Continuous_MountainCarEnv()
+
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
     
