@@ -1,9 +1,7 @@
 This is a modification of the HAC algorithm implementing the go-explore algorithm... sort of...
 anyway it seems to work really well
 
-![Image of Yaktocat](https://https://github.com/christofer-f/Hierarchical-Actor-Critic-HAC-PyTorch/Result.png)
-
-
+![](https://github.com/christofer-f/Hierarchical-Actor-Critic-HAC-PyTorch/blob/master/Result.png)
 
 # Hierarchical-Actor-Critic-HAC-PyTorch
 
