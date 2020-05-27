@@ -1,10 +1,12 @@
 This is a modification of the HAC algorithm implementing the go-explore algorithm... sort of...
 anyway it seems to work really well
 
+The code is not optimized but works well for toy problems
+
 ![](https://github.com/christofer-f/Hierarchical-Actor-Critic-HAC-PyTorch/blob/master/Result.png)
 
-Serie1: GO-EXPLORE is active  (https://github.com/uber-research/go-explore)
-Serie2: Standard exploration 
+Serie1: Standard exploration 
+Serie2: GO-EXPLORE is active  (https://github.com/uber-research/go-explore)
 
 
 # Hierarchical-Actor-Critic-HAC-PyTorch
